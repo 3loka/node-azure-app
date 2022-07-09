@@ -109,9 +109,17 @@ jobs:
           echo "Website is up and running..."
           echo "Browse here: $URL"       
           echo "::set-output name=your_site::$URL"
+          
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: setup Readme
         run: |
           sed 's/TBD_APP_LINK/${{ github.event.inputs.AZURE_APP_SERVICE_NAME }}.azurewebsites.net/g' .github/app-readme.md
-          mv .github/app-readme.md readme.md
+          mv .github/app-readme.md README.md
+          git add .
+          git commit -m "updated readme"
+          git push 
           
